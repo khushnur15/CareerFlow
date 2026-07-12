@@ -3,6 +3,7 @@ import shutil
 import os
 from app.utils.resume_parser import extract_text_from_pdf
 from app.utils.skill_extractor import extract_skills
+from app.utils.job_matcher import match_jobs
 
 router = APIRouter()
 
@@ -27,10 +28,12 @@ async def upload_resume(file: UploadFile = File(...)):
 
     text = extract_text_from_pdf(file_path)
     skills = extract_skills(text)
+    job_matches = match_jobs(skills)
 
     return {
     "message": "Resume uploaded successfully",
     "filename": "resume.pdf",
     "skills": skills,
-    "text_preview": text[:1000]
+    "recommended_roles": job_matches,
+    "text_preview": text[:500]
 }
