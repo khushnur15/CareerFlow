@@ -42,10 +42,13 @@ def match_jobs(user_skills):
     for role, required_skills in JOB_ROLE_SKILLS.items():
 
         matched_count = 0
+        missing_skills = []
 
         for skill in required_skills:
             if skill in user_skills:
                 matched_count += 1
+            else:
+                missing_skills.append(skill)
 
         match_percentage = (
             matched_count / len(required_skills)
@@ -58,7 +61,8 @@ def match_jobs(user_skills):
                     "match_percentage": round(
                         match_percentage,
                         2
-                    )
+                    ),
+                    "missing_skills": missing_skills
                 }
             )
 
